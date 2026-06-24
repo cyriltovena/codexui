@@ -1,7 +1,13 @@
+/** Narrows `value` to a plain (non-array) object record, or returns `null`. */
 function asRecord(value: unknown): Record<string, unknown> | null {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
     ? (value as Record<string, unknown>)
     : null
+}
+
+/** Returns `true` when `value` is a non-empty string. */
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.length > 0
 }
 
 export type CodexErrorCode =
@@ -30,10 +36,10 @@ export function extractErrorMessage(payload: unknown, fallback: string): string 
   if (!record) return fallback
 
   const error = record.error
-  if (typeof error === 'string' && error.length > 0) return error
+  if (isNonEmptyString(error)) return error
 
   const nested = asRecord(error)
-  if (nested && typeof nested.message === 'string' && nested.message.length > 0) {
+  if (nested && isNonEmptyString(nested.message)) {
     return nested.message
   }
 
