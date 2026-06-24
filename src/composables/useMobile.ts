@@ -1,5 +1,6 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 
+// Breakpoint matches Tailwind's `md` screen size (768px)
 const MOBILE_BREAKPOINT = 768
 
 export function useMobile() {
